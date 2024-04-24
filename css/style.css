@@ -1,0 +1,16 @@
+
+#canvas {
+
+    width: 100vw;
+    height: 100vh;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
+}
+body {
+    position:relative;
+}
