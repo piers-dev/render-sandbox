@@ -62,11 +62,12 @@ function draw() {
 
             ny = (noise(0.01*y-time*0.3,0.01*x+time*0.3)-0.5)*50;
 
+            //d += noise(0.005*x+0.1*time,0.005*y-0.2*time)*0.1;
+
             line(x+nx,y+ny,lerp(x+nx,mouseX,0.3*d),lerp(y+ny,mouseY,0.3*d));
         }
     }
 
-    
     /*
     if (myCanvas.width != getWidth() || myCanvas.height != getHeight) {
         myCanvas.resize(getWidth(), getHeight());
