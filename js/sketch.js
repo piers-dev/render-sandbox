@@ -52,7 +52,8 @@ function draw() {
     //if (myCanvas.width != getWidth() || myCanvas.height != getHeight) {
     //    myCanvas.resize(getWidth(), getHeight());
     //}
-    background(0)
+    clear()
+    
     
     inputAudio = pow(noise(time*3)*3,3)/8;
 
