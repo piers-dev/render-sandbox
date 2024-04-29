@@ -24,7 +24,8 @@ class particleTarget {
 function circleFormation(index) {
     let fac = (3.14159 / particles.length) * index;
     ribbonLength = particles.length;
-    swarmVelocity = -40;
+    swarmVelocity = -20;
+    swarmPosition = (stateTime * 5 - 0.5)
     return new particleTarget(Math.sin(fac + stateTime * 5) * 150, Math.cos(fac + stateTime * 5) * 150, 20, 0, 1, 0.2, 0.5);
 
 }
@@ -189,7 +190,7 @@ function drawParticles() {
 
     if (form != lastForm) {
         stateChangeTime = time;
-        if (form == 0) swarmPosition = 0;
+        //if (form == 0) swarmPosition = 0;
     }
 
     stateTime = time - stateChangeTime;
@@ -212,7 +213,7 @@ function drawParticles() {
             propagationSpeed = 4;
             break;
         case 2:
-            propagationSpeed = 2;
+            propagationSpeed = 20;
             break;
     }
 
@@ -225,7 +226,11 @@ function drawParticles() {
 
     particles.forEach((p) => {
 
+        //let nx = p.startingX*Math.cos(swarmVelocity*0.01)-p.startingY*Math.sin(swarmVelocity*0.01);
+        //let ny = p.startingY*Math.cos(swarmVelocity*0.01)+p.startingX*Math.sin(swarmVelocity*0.01);
 
+        //p.startingX = nx;
+        //p.startingY = ny;
         p.draw();
     });
 
