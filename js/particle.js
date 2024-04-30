@@ -24,8 +24,8 @@ class particleTarget {
 function circleFormation(index) {
     let fac = (3.14159 / particles.length) * index;
     ribbonLength = particles.length;
-    swarmVelocity = -20;
-    swarmPosition = (stateTime * 5 - 0.5)
+    swarmVelocity = -15;
+    swarmPosition = (stateTime * 5 - 1)
     return new particleTarget(Math.sin(fac + stateTime * 5) * 150, Math.cos(fac + stateTime * 5) * 150, 20, 0, 1, 0.2, 0.5);
 
 }
