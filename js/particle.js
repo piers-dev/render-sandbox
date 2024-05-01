@@ -39,7 +39,7 @@ function VUFormation(index) {
 
     ribbonLength = particles.length / 4;
 
-    return new particleTarget((row - 1.5) * 75, strength * 10 * inputAudio, 30, 0, 1, 0.2, 0.6);
+    return new particleTarget((row - 1.5) * 75, strength * 10 * inputAudio, 30, 0, 1, 0.2+Math.max(Math.min(stateTime-0.5,0.7),0), 0.6);
 }
 
 /*function lineFormation(index) {

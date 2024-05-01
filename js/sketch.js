@@ -32,6 +32,8 @@ function setup() {
   
     // Call repaint() when the button is pressed.
     initParticles();
+
+    readMicrophone();
 }
 
 
@@ -45,7 +47,55 @@ let inputAudio;
     return a+(b-a)*t;
 }*/
 
+function readMicrophone() {
+    navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true
+      })
+        .then(function(stream) {
+          const audioContext = new AudioContext();
+          const analyser = audioContext.createAnalyser();
+          const microphone = audioContext.createMediaStreamSource(stream);
+          const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
+      
+          analyser.smoothingTimeConstant = 0.8;
+          analyser.fftSize = 1024;
+      
+          microphone.connect(analyser);
+          analyser.connect(scriptProcessor);
+          scriptProcessor.connect(audioContext.destination);
+          scriptProcessor.onaudioprocess = function() {
+            const array = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(array);
+            const arraySum = array.reduce((a, value) => a + value, 0);
+            let average = arraySum / array.length;
+
+            average = Math.max(average-15,0)*1.17;
+            let v = bias(average/100,0.75)*1.5;
+
+            if (!isNaN(v)) inputAudio = v;
+            // colorPids(average);
+          };
+        })
+        .catch(function(err) {
+          /* handle the error */
+          console.error(err);
+        });
+
+    
+}
+
+
+
+
 function draw() {
+
+
+
+
+
+
+
     time = Date.now()/1000;
 
     hwidth = width/2;
@@ -55,8 +105,6 @@ function draw() {
     //}
     clear()
     
-    
-    inputAudio = pow(noise(time*3)*3,3)/8;
 
     drawParticles();
 
