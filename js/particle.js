@@ -71,10 +71,12 @@ function defaultFormation(index) {
     ribbonLength = particles.length;
 
 
+    let size =particles[index].startingSize;
+
+    let nsize = 1-(size / 41);
 
 
-
-    return new particleTarget(x, y, particles[index].startingSize, 1, 0, 0.03, 0.8);
+    return new particleTarget(x*(1+(outputAudio/5)*nsize), y*(1+(outputAudio/5)/nsize), size*(1+outputAudio/2), (1+outputAudio*3), 0, 0.03*(1+outputAudio*2), 0.8);
 }
 
 
@@ -154,8 +156,8 @@ class particle {
 
                     stroke(color(255,255,255,128))
 
-                    strokeWeight((Math.max(1 - (dst / 100), 0) * 2) * this.lineWeight);
-                    line(this.x + hwidth, this.y + hheight, p.x + hwidth, p.y + hheight);
+                    scaledStrokeWeight((Math.max(1 - (dst / 100), 0) * 2) * this.lineWeight);
+                    transformedLine(this.x, this.y, p.x, p.y);
                 }
             })
         }
@@ -163,7 +165,7 @@ class particle {
         stroke('white');
 
 
-        strokeWeight(this.size);
+        scaledStrokeWeight(this.size);
         let next = this;
         if (particles.length != this.index + 1) {
             next = particles[this.index + 1];
@@ -172,14 +174,22 @@ class particle {
 
 
 
-        line(this.x + hwidth, this.y + hheight, lerp(this.x, next.x, this.coherence) + hwidth, lerp(this.y, next.y, this.coherence) + hheight);
+        transformedLine(this.x, this.y, lerp(this.x, next.x, this.coherence), lerp(this.y, next.y, this.coherence));
 
         //transformedCircle(this.x,this.y,this.size);
     }
 }
 
 function transformedCircle(x, y, diameter) {
-    circle(x + hwidth, y + hheight, diameter);
+    circle((x/800)*smin + hwidth, (y/800)*smin + hheight, diameter);
+}
+
+function scaledStrokeWeight(weight) {
+    strokeWeight((weight/800)*smin)
+}
+
+function transformedLine(x1,y1,x2,y2) {
+    line((x1/800)*smin+hwidth, (y1/800)*smin+hheight, (x2/800)*smin + hwidth, (y2/800)*smin + hheight);
 }
 
 let stateTime;
