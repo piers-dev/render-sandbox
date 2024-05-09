@@ -13,7 +13,7 @@ function getHeight() {
 }
 
 const DEFAULT = 0;
-const LOADING = 1;
+const LOADING = 1; 
 const VUMETER = 2;
 
 function setState(state) {
@@ -27,6 +27,18 @@ function setInputLevel(level) {
 function setOutputLevel(level) {
 	outputAudio = level;
 }
+
+
+//setState(DEFAULT); //Switches to default state
+//
+//setState(LOADING); //Switches to loading state
+//
+//setState(VUMETER); //Switches to VU Meter state
+//
+//setInputLevel(0.5); //Sets input (microphone) level (0-1 range)
+//
+//setOutputLevel(0.5); //Sets output (AI voice) level (0-1 range)
+
 
 function setup() {
 

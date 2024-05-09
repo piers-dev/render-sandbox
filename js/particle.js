@@ -39,7 +39,7 @@ function VUFormation(index) {
 
     ribbonLength = particles.length / 4;
 
-    return new particleTarget((row - 1.5) * 75, strength * 10 * inputAudio, 30, 0, 1, 0.2+Math.max(Math.min(stateTime-0.5,0.7),0), 0.6);
+    return new particleTarget((row - 1.5) * 75, strength * 10 * inputAudio, 30, 0, 1, 0.2 + Math.max(Math.min(stateTime - 0.5, 0.7), 0), 0.6);
 }
 
 /*function lineFormation(index) {
@@ -57,10 +57,10 @@ function defaultFormation(index) {
 
 
     let x = nx;
-    let rx = particles[index].randX*2;
+    let rx = particles[index].randX * 2;
 
     let y = ny;
-    let ry = particles[index].randY*2;
+    let ry = particles[index].randY * 2;
 
 
     x += (noise(rx, ry + time * 0.05) - 0.5) * 200;
@@ -71,12 +71,12 @@ function defaultFormation(index) {
     ribbonLength = particles.length;
 
 
-    let size =particles[index].startingSize;
+    let size = particles[index].startingSize;
 
-    let nsize = 1-(size / 41);
+    let nsize = 1 - (size / 41);
 
 
-    return new particleTarget(x*(1+(outputAudio/5)*nsize), y*(1+(outputAudio/5)/nsize), size*(1+outputAudio/2), (1+outputAudio*3), 0, 0.03*(1+outputAudio*2), 0.8);
+    return new particleTarget(x * (1 + (outputAudio / 5) * nsize), y * (1 + (outputAudio / 5) / nsize), size * (1 + outputAudio / 2), (1 + outputAudio * 3), 0, 0.03 * (1 + outputAudio * 2), 0.8);
 }
 
 
@@ -153,11 +153,12 @@ class particle {
                 ribbonLength != 0
                 if ((p.index > this.index)) {
                     let dst = Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2));
+                    if (dst < 100) {
+                        stroke(color(255, 255, 255, 128*(1-dst/100)))
 
-                    stroke(color(255,255,255,128))
-
-                    scaledStrokeWeight((Math.max(1 - (dst / 100), 0) * 2) * this.lineWeight);
-                    transformedLine(this.x, this.y, p.x, p.y);
+                        scaledStrokeWeight((Math.max(1 - (dst / 100), 0) * 2) * this.lineWeight);
+                        transformedLine(this.x, this.y, p.x, p.y);
+                    }
                 }
             })
         }
@@ -181,15 +182,15 @@ class particle {
 }
 
 function transformedCircle(x, y, diameter) {
-    circle((x/800)*smin + hwidth, (y/800)*smin + hheight, diameter);
+    circle((x / 800) * smin + hwidth, (y / 800) * smin + hheight, diameter);
 }
 
 function scaledStrokeWeight(weight) {
-    strokeWeight((weight/800)*smin)
+    strokeWeight(Math.max((weight / 800) * smin,1))
 }
 
-function transformedLine(x1,y1,x2,y2) {
-    line((x1/800)*smin+hwidth, (y1/800)*smin+hheight, (x2/800)*smin + hwidth, (y2/800)*smin + hheight);
+function transformedLine(x1, y1, x2, y2) {
+    line((x1 / 800) * smin + hwidth, (y1 / 800) * smin + hheight, (x2 / 800) * smin + hwidth, (y2 / 800) * smin + hheight);
 }
 
 let stateTime;
@@ -205,11 +206,11 @@ function drawParticles() {
 
     stateTime = time - stateChangeTime;
     lastForm = form;
-    
+
 
     swarmVelocity *= 0.9;
 
-    swarmPosition += swarmVelocity*0.01;
+    swarmPosition += swarmVelocity * 0.01;
 
     particles[particles.length - 1].state = form;
 
@@ -249,19 +250,19 @@ function drawParticles() {
 
 function bias(x, b) {
     b = -Math.log2(1 - b);
-    return 1 - Math.pow(1 - Math.pow(x, 1/b), b);
+    return 1 - Math.pow(1 - Math.pow(x, 1 / b), b);
 }
 
 function initParticles() {
     for (let i = 0; i < 64; i++) {
-        let theta = ((Math.PI * 4) / 32) * i + Math.PI*0.75;
+        let theta = ((Math.PI * 4) / 32) * i + Math.PI * 0.75;
         let x = Math.cos(theta) * 150
         let y = Math.sin(theta) * 150
 
-       x += (Math.random()-0.5)*100;
-       y += (Math.random()-0.5)*100;
+        x += (Math.random() - 0.5) * 100;
+        y += (Math.random() - 0.5) * 100;
 
 
-        new particle(x, y, pow(bias(Math.random(),0.3)*10+2,1.5));
+        new particle(x, y, pow(bias(Math.random(), 0.3) * 10 + 2, 1.5));
     }
 }
